@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.OAuthCredential
 import com.google.firebase.auth.OAuthProvider
 import com.ximendes.sumtwitter.MainActivity
 import com.ximendes.sumtwitter.R
@@ -49,7 +50,10 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth
             .startActivityForSignInWithProvider(this, provider.build())
             .addOnSuccessListener {
-                viewModel.loginSuccess()
+                val a = it.credential as OAuthCredential
+                val b = a.accessToken
+                val c  = a.secret
+                val d  = c
             }
             .addOnFailureListener {
                 viewModel.loginFail()

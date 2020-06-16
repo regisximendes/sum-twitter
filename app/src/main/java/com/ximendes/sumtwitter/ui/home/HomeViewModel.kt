@@ -1,13 +1,31 @@
 package com.ximendes.sumtwitter.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ximendes.sumtwitter.data.repository.home.HomeRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(val repository: HomeRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    init {
+        getUserTimeline()
     }
-    val text: LiveData<String> = _text
+
+   private fun getUserTimeline(){
+       val disposable = repository.getUserTimeline()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+           .subscribe({
+               val a = it
+               val b = a
+
+           }, {
+
+               handleError()
+           })
+    }
+
+   private fun handleError(){
+
+    }
 }

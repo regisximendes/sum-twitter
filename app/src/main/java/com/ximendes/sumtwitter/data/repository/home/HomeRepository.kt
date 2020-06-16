@@ -1,11 +1,9 @@
-package com.ximendes.sumtwitter.data.api
+package com.ximendes.sumtwitter.data.repository.home
 
 import com.ximendes.sumtwitter.data.response.TweetResponse
 import io.reactivex.Single
-import retrofit2.http.GET
 
-interface TimelineApi {
+interface HomeRepository {
 
-    @GET("/user/timeline")
     fun getUserTimeline(): Single<List<TweetResponse>>
 }

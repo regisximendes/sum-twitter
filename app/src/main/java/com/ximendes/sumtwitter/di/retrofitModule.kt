@@ -22,7 +22,7 @@ val retrofitModule = module {
 
     fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://tips-app-api.herokuapp.com/")
+            .baseUrl("https://sum-twitter-api.herokuapp.com/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

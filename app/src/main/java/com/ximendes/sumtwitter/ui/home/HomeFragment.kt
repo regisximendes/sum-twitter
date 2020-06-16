@@ -6,17 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ximendes.sumtwitter.R
+import com.ximendes.sumtwitter.data.domain.Tweet
 import com.ximendes.sumtwitter.databinding.FragmentHomeBinding
-import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var adapter: TweetsAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,10 +42,25 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
+    }
 
-        button.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            activity?.finish()
+    private fun observeViewModel() = with(viewModel) {
+        tweets.observe(viewLifecycleOwner, Observer { tweets ->
+            setupTweetList(tweets)
+        })
+    }
+
+    private fun paginatedTweets(tweets: List<Tweet>) {
+        adapter.addTweetsToList(tweets)
+    }
+
+    private fun setupTweetList(tweets: List<Tweet>) {
+        this.adapter = TweetsAdapter()
+        binding.tweetsRecyclerView.apply {
+            adapter = this@HomeFragment.adapter
+            layoutManager = LinearLayoutManager(this@HomeFragment.context)
         }
+        adapter.addTweetsToList(tweets)
     }
 }

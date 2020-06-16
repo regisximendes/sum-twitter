@@ -1,9 +1,17 @@
 package com.ximendes.sumtwitter.data.mapper
 
-fun toTweet() {
+import com.ximendes.sumtwitter.data.domain.Tweet
+import com.ximendes.sumtwitter.data.response.TweetResponse
 
+fun TweetResponse.toTweet(): Tweet {
+    return Tweet(
+        fullName = user?.name.orEmpty(),
+        userName = "@${user?.screenName.orEmpty()}",
+        description = user?.description.orEmpty(),
+        profileImageUrl = user?.profileImageUrl.orEmpty()
+    )
 }
 
-fun toTweetList() {
-
+fun List<TweetResponse>.toTweetList(): List<Tweet> {
+    return map { it.toTweet() }
 }

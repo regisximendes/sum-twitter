@@ -16,16 +16,17 @@ class DashboardViewModel(private val repository: HomeRepository) : BaseTimeLineV
     val fullName = MutableLiveData<String>()
     val userName = MutableLiveData<String>()
     val description = MutableLiveData<String>()
-    val profileImageUrl =  MutableLiveData<String>()
+    val profileImageUrl = MutableLiveData<String>()
 
     val error = SingleLiveEvent<Unit>()
 
     fun getUserHome(userName: String) {
         val formattedUserName = formatUserNameToSearch(userName)
-
+        showProgressBar()
         val disposable = repository.getUserHome(formattedUserName)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doAfterTerminate { hideProgressBar() }
             .subscribe({ tweetsResponseList ->
                 fetchTweetsSuccess(tweetsResponseList)
             }, {

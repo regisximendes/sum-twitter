@@ -9,7 +9,6 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.ximendes.sumtwitter.data.enums.SessionState
 
-
 class LoginRepositoryImpl : LoginRepository {
 
     override fun checkPendingResultTask(): LiveData<SessionState> {

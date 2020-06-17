@@ -15,7 +15,6 @@ import com.ximendes.sumtwitter.databinding.ActivityLoginBinding
 import com.ximendes.sumtwitter.util.constants.Constants
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class LoginActivity : AppCompatActivity() {
 
     private val viewModel: LoginViewModel by viewModel()

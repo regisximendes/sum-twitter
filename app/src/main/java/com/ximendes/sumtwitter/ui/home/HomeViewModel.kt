@@ -19,9 +19,11 @@ class HomeViewModel(private val repository: HomeRepository) : BaseTimeLineViewMo
     }
 
     private fun getUserTimeline() {
+        showProgressBar()
         val disposable = repository.getUserTimeline()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doAfterTerminate { hideProgressBar() }
             .subscribe({ tweetsResponseList ->
                 fetchTweetsSuccess(tweetsResponseList.toTweetList())
             }, {

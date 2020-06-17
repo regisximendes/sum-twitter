@@ -1,5 +1,6 @@
 package com.ximendes.sumtwitter.ui.login
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.ximendes.sumtwitter.data.enums.SessionState.LOGGED_IN
@@ -14,6 +15,7 @@ class LoginViewModel(
     val loginSuccess = SingleLiveEvent<Unit>()
     val error = SingleLiveEvent<Unit>()
     val signInFlowEvent = SingleLiveEvent<Unit>()
+    val isLoading = MutableLiveData<Boolean>().apply { value = false }
 
     init {
         checkLoggedUser()
@@ -28,6 +30,7 @@ class LoginViewModel(
     }
 
     fun checkPendingResultTask() {
+        showProgressBar()
         val sessionState = repository.checkPendingResultTask().value ?: return
 
         when (sessionState) {
@@ -37,11 +40,18 @@ class LoginViewModel(
     }
 
     fun loginSuccess() {
+        hideProgressBar()
         loginSuccess.call()
     }
 
     fun loginFail() {
+        hideProgressBar()
         error.call()
     }
+
+    private fun showProgressBar() = isLoading.postValue(true)
+
+    private fun hideProgressBar() = isLoading.postValue(false)
+
 
 }

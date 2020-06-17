@@ -3,9 +3,12 @@ package com.ximendes.sumtwitter.ui.login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.OAuthCredential
 import com.ximendes.sumtwitter.data.enums.SessionState.LOGGED_IN
 import com.ximendes.sumtwitter.data.enums.SessionState.LOGGED_OUT
 import com.ximendes.sumtwitter.data.repository.login.LoginRepository
+import com.ximendes.sumtwitter.util.PreferencesHelper
+import com.ximendes.sumtwitter.util.constants.Constants
 import com.ximendes.sumtwitter.util.livedata.SingleLiveEvent
 
 class LoginViewModel(
@@ -49,9 +52,13 @@ class LoginViewModel(
         error.call()
     }
 
+    fun onSaveCredentials(credential: OAuthCredential) {
+        PreferencesHelper.saveString(Constants.ACCESS_TOKEN_KEY, credential.accessToken)
+        PreferencesHelper.saveString(Constants.SECRET_KEY, credential.secret)
+    }
+
     private fun showProgressBar() = isLoading.postValue(true)
 
     private fun hideProgressBar() = isLoading.postValue(false)
-
 
 }

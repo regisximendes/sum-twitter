@@ -55,11 +55,9 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth
             .startActivityForSignInWithProvider(this, provider.build())
             .addOnSuccessListener {
+                val oAuthCredential = it.credential as OAuthCredential
                 viewModel.loginSuccess()
-                val a = it.credential as OAuthCredential
-                val b = a.accessToken
-                val c = a.secret
-                val d = c
+                viewModel.onSaveCredentials(oAuthCredential)
             }
             .addOnFailureListener {
                 viewModel.loginFail()

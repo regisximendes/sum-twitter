@@ -65,7 +65,7 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-light"
             android:maxLines="2"
-            android:text="@{data.description}"
+            android:text="@{data.tex}"
             android:textColor="@color/soft_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

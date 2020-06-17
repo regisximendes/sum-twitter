@@ -1,17 +1,15 @@
 package com.ximendes.sumtwitter.ui.home
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.ximendes.sumtwitter.data.domain.Tweet
 import com.ximendes.sumtwitter.data.mapper.toTweetList
 import com.ximendes.sumtwitter.data.repository.home.HomeRepository
+import com.ximendes.sumtwitter.util.shared.BaseTimeLineViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
+class HomeViewModel(private val repository: HomeRepository) : BaseTimeLineViewModel() {
 
-    private val compositeDisposable = CompositeDisposable()
     val tweets = MutableLiveData<List<Tweet>>()
 
     init {
@@ -37,10 +35,5 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
 
     private fun handleError() {
 
-    }
-
-    override fun onCleared() {
-        compositeDisposable.dispose()
-        super.onCleared()
     }
 }

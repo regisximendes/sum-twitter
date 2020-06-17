@@ -1,12 +1,16 @@
 package com.ximendes.sumtwitter.data.repository.home
 
-import com.ximendes.sumtwitter.data.api.HomeApi
+import com.ximendes.sumtwitter.data.api.TimeLinesApi
 import com.ximendes.sumtwitter.data.response.TweetResponse
 import io.reactivex.Single
 
-class HomeRepositoryImpl(private val homeApi: HomeApi): HomeRepository {
+class HomeRepositoryImpl(private val timeLinesApi: TimeLinesApi): HomeRepository {
 
     override fun getUserTimeline(): Single<List<TweetResponse>> {
-        return homeApi.getUserTimeline()
+        return timeLinesApi.getUserTimeline()
+    }
+
+    override fun getUserHome(userName: String): Single<List<TweetResponse>> {
+        return timeLinesApi.getUserHome(userName)
     }
 }

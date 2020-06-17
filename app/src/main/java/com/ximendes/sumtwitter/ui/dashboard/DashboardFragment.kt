@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ximendes.sumtwitter.R
-import com.ximendes.sumtwitter.data.domain.Tweet
 import com.ximendes.sumtwitter.databinding.FragmentDashboardBinding
 import com.ximendes.sumtwitter.util.constants.Constants.USER_NAME
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -16,6 +17,7 @@ class DashboardFragment : Fragment() {
 
     private val viewModel: DashboardViewModel by viewModel()
     private lateinit var binding: FragmentDashboardBinding
+    private lateinit var adapter: TweetsTextAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,21 +44,22 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
         val userName = arguments?.getString(USER_NAME)
+        viewModel.getUserHome(userName ?: return)
     }
 
 
     private fun observeViewModel() = with(viewModel) {
-//        tweets.observe(viewLifecycleOwner, Observer { tweets ->
-//            setupTweetList(tweets)
-//        })
+        tweets.observe(viewLifecycleOwner, Observer { tweets ->
+            setupTweetList(tweets)
+        })
     }
 
-    private fun setupTweetList(tweets: List<Tweet>) {
-//        this.adapter = TweetsAdapter(this, tweets)
-//        binding.tweetsRecyclerView.apply {
-//            adapter = this@HomeFragment.adapter
-//            layoutManager = LinearLayoutManager(this@HomeFragment.context)
-//        }
+    private fun setupTweetList(tweets: List<String>) {
+        this.adapter = TweetsTextAdapter(tweets)
+        binding.tweetsRecyclerView.apply {
+            adapter = this@DashboardFragment.adapter
+            layoutManager = LinearLayoutManager(this@DashboardFragment.context)
+        }
     }
 
 }

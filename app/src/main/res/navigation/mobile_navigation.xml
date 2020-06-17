@@ -9,7 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.ximendes.sumtwitter.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard" />
@@ -17,14 +17,8 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.ximendes.sumtwitter.ui.dashboard.DashboardFragment"
+        android:name="com.ximendes.sumtwitter.ui.profile.ProfileFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.ximendes.sumtwitter.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>

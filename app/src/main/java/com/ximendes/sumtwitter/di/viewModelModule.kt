@@ -1,6 +1,6 @@
 package com.ximendes.sumtwitter.di
 
-import com.ximendes.sumtwitter.ui.dashboard.DashboardViewModel
+import com.ximendes.sumtwitter.ui.profile.ProfiledViewModel
 import com.ximendes.sumtwitter.ui.home.HomeViewModel
 import com.ximendes.sumtwitter.ui.login.LoginViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -10,5 +10,5 @@ val viewModelModule = module {
 
     viewModel { LoginViewModel(get()) }
     viewModel { HomeViewModel(get()) }
-    viewModel { DashboardViewModel(get()) }
+    viewModel { ProfiledViewModel(get()) }
 }

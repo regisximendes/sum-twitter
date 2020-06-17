@@ -1,4 +1,4 @@
-package com.ximendes.sumtwitter.ui.dashboard
+package com.ximendes.sumtwitter.ui.profile
 
 import androidx.lifecycle.MutableLiveData
 import com.ximendes.sumtwitter.data.mapper.toSimpleTweetList
@@ -10,7 +10,7 @@ import com.ximendes.sumtwitter.util.shared.BaseTimeLineViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class DashboardViewModel(private val repository: HomeRepository) : BaseTimeLineViewModel() {
+class ProfiledViewModel(private val repository: HomeRepository) : BaseTimeLineViewModel() {
 
     val tweets = MutableLiveData<List<String>>()
     val fullName = MutableLiveData<String>()

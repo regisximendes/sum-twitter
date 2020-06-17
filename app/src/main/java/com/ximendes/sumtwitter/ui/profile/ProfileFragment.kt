@@ -1,4 +1,4 @@
-package com.ximendes.sumtwitter.ui.dashboard
+package com.ximendes.sumtwitter.ui.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,14 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ximendes.sumtwitter.R
-import com.ximendes.sumtwitter.databinding.FragmentDashboardBinding
+import com.ximendes.sumtwitter.databinding.FragmentProfileBinding
 import com.ximendes.sumtwitter.util.constants.Constants.USER_NAME
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DashboardFragment : Fragment() {
+class ProfileFragment : Fragment() {
 
-    private val viewModel: DashboardViewModel by viewModel()
-    private lateinit var binding: FragmentDashboardBinding
+    private val viewModel: ProfiledViewModel by viewModel()
+    private lateinit var binding: FragmentProfileBinding
     private lateinit var adapter: TweetsTextAdapter
 
     override fun onCreateView(
@@ -30,7 +30,7 @@ class DashboardFragment : Fragment() {
     private fun setupViewBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_dashboard,
+            R.layout.fragment_profile,
             container,
             false
         )
@@ -59,8 +59,8 @@ class DashboardFragment : Fragment() {
     private fun setupTweetList(tweets: List<String>) {
         this.adapter = TweetsTextAdapter(tweets)
         binding.tweetsRecyclerView.apply {
-            adapter = this@DashboardFragment.adapter
-            layoutManager = LinearLayoutManager(this@DashboardFragment.context)
+            adapter = this@ProfileFragment.adapter
+            layoutManager = LinearLayoutManager(this@ProfileFragment.context)
         }
     }
 

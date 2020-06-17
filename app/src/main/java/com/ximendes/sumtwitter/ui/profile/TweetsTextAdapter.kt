@@ -1,10 +1,8 @@
-package com.ximendes.sumtwitter.ui.dashboard
+package com.ximendes.sumtwitter.ui.profile
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.ximendes.sumtwitter.data.domain.Tweet
 import com.ximendes.sumtwitter.databinding.ItemTweetTextBinding
 
 class TweetsTextAdapter(

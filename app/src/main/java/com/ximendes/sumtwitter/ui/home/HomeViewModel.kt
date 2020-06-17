@@ -18,7 +18,7 @@ class HomeViewModel(private val repository: HomeRepository) : BaseTimeLineViewMo
         getUserTimeline()
     }
 
-    private fun getUserTimeline() {
+    fun getUserTimeline() {
         showProgressBar()
         val disposable = repository.getUserTimeline()
             .subscribeOn(Schedulers.io())

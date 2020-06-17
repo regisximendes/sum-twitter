@@ -15,5 +15,4 @@ val repositoryModule = module {
 
     single { provideLoginRepository() }
     single { provideHomeRepository(get()) }
-
 }

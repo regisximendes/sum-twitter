@@ -48,6 +48,7 @@ class HomeFragment : Fragment(), TweetListener {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
         setupNavController(view)
+        viewModel.getUserTimeline()
     }
 
     private fun setupNavController(view: View) {

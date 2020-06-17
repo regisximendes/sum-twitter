@@ -14,7 +14,6 @@ object PreferencesHelper {
 
     fun saveString(key: String, value: String?) {
         sharedPreferences.edit().putString(key, value ?: "").apply()
-
     }
 
     fun initPreference(context: Context) {

@@ -11,5 +11,4 @@ val apiModule = module {
     }
 
     single { provideTimelineApi(get()) }
-
 }

@@ -30,35 +30,29 @@ class LoginViewModelTest {
     @InjectMockKs
     private lateinit var viewModel: LoginViewModel
 
-
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        viewModel = LoginViewModel(resourceProvider, repository)
+        viewModel = LoginViewModel(repository)
     }
 
     @Test
     fun `when user click on login button should check pending task`() {
-
     }
 
     @Test
     fun `when have no pending task should start sign in flow`() {
-
     }
 
     @Test
     fun `when have pending task should proceed to timeline`() {
-
     }
 
     @Test
     fun `when login be succeed should proceed to timeline`() {
-
     }
 
     @Test
     fun `when login fail should show an error message`() {
-
     }
 }

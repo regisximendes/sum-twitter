@@ -1,7 +1,11 @@
 package com.ximendes.sumtwitter
 
 import android.app.Application
-import com.ximendes.sumtwitter.di.*
+import com.ximendes.sumtwitter.di.apiModule
+import com.ximendes.sumtwitter.di.appModule
+import com.ximendes.sumtwitter.di.repositoryModule
+import com.ximendes.sumtwitter.di.retrofitModule
+import com.ximendes.sumtwitter.di.viewModelModule
 import com.ximendes.sumtwitter.util.PreferencesHelper
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

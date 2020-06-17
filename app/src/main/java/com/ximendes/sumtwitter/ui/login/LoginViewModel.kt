@@ -60,5 +60,4 @@ class LoginViewModel(
     private fun showProgressBar() = isLoading.postValue(true)
 
     private fun hideProgressBar() = isLoading.postValue(false)
-
 }

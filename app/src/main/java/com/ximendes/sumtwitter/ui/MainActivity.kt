@@ -1,7 +1,8 @@
-package com.ximendes.sumtwitter
+package com.ximendes.sumtwitter.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.ximendes.sumtwitter.R
 
 class MainActivity : AppCompatActivity() {
 

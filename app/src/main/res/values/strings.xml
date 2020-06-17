@@ -3,4 +3,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="login_fail_message">Fail</string>
+    <string name="login_with_twitter">Login with Twitter</string>
+    <string name="login_subtitle">Tweet the world out</string>
+    <string name="error_title">Algo de errado aconteceu</string>
+    <string name="error_message">Verifique sua conexao ou tente mais tarde</string>
 </resources>

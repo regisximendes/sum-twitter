@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "823549678343",
+    "firebase_url": "https://sumtwitter-35496.firebaseio.com",
+    "project_id": "sumtwitter-35496",
+    "storage_bucket": "sumtwitter-35496.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:823549678343:android:9fff736d5ef14d393d2ba2",
+        "android_client_info": {
+          "package_name": "com.ximendes.sumtwitter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "823549678343-pahqb1lv7atlhokjogppl0khvme3tqkv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ximendes.sumtwitter",
+            "certificate_hash": "78ad60bbbdab688dff2a42934902d8555b05c09d"
+          }
+        },
+        {
+          "client_id": "823549678343-e06j9u27cjiib4suet3vhjjekqssre0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQWbjucrG-BEnR9Qo4bPaeZ_JnlIxoG0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "823549678343-e06j9u27cjiib4suet3vhjjekqssre0m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

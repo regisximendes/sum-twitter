@@ -1,14 +1,17 @@
 package com.ximendes.sumtwitter.ui.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ximendes.sumtwitter.data.domain.Tweet
 import com.ximendes.sumtwitter.databinding.ItemTweetBinding
 
-class TweetsAdapter : RecyclerView.Adapter<TweetsAdapter.ViewHolder>() {
-
-    private val tweets = arrayListOf<Tweet>()
+class TweetsAdapter(
+    private val listener: TweetListener,
+    private val tweets: List<Tweet>
+) :
+    RecyclerView.Adapter<TweetsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -21,17 +24,18 @@ class TweetsAdapter : RecyclerView.Adapter<TweetsAdapter.ViewHolder>() {
     override fun getItemCount() = tweets.size
 
     inner class ViewHolder(private val binding: ItemTweetBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         fun bind(tweet: Tweet) {
             binding.data = tweet
         }
-    }
 
-    fun addTweetsToList(tweets: List<Tweet>) {
-        tweets.forEachIndexed { index, tweet ->
-            this.tweets.add(tweet)
-            notifyItemInserted(index)
+        init {
+            binding.root.setOnClickListener(this)
+        }
+
+        override fun onClick(view: View?) {
+            listener.onTweetClicked(tweets[adapterPosition].userName)
         }
     }
 }

@@ -7,7 +7,7 @@ fun TweetResponse.toTweet(): Tweet {
     return Tweet(
         fullName = user?.name.orEmpty(),
         userName = "@${user?.screenName.orEmpty()}",
-        description = user?.description.orEmpty(),
+        description = text,
         profileImageUrl = user?.profileImageUrl.orEmpty()
     )
 }

@@ -4,20 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ximendes.sumtwitter.R
 import com.ximendes.sumtwitter.data.domain.Tweet
 import com.ximendes.sumtwitter.databinding.FragmentHomeBinding
+import com.ximendes.sumtwitter.util.constants.Constants.USER_NAME
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), TweetListener {
 
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: TweetsAdapter
+    private lateinit var navController: NavController
 
 
     override fun onCreateView(
@@ -43,6 +48,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
+        setupNavController(view)
+    }
+
+    private fun setupNavController(view: View) {
+        navController = Navigation.findNavController(view)
     }
 
     private fun observeViewModel() = with(viewModel) {
@@ -51,16 +61,18 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun paginatedTweets(tweets: List<Tweet>) {
-        adapter.addTweetsToList(tweets)
-    }
-
     private fun setupTweetList(tweets: List<Tweet>) {
-        this.adapter = TweetsAdapter()
+        this.adapter = TweetsAdapter(this, tweets)
         binding.tweetsRecyclerView.apply {
             adapter = this@HomeFragment.adapter
             layoutManager = LinearLayoutManager(this@HomeFragment.context)
         }
-        adapter.addTweetsToList(tweets)
+    }
+
+    override fun onTweetClicked(userName: String) {
+        navController.navigate(
+            R.id.action_navigation_home_to_navigation_dashboard,
+            bundleOf(USER_NAME to userName)
+        )
     }
 }

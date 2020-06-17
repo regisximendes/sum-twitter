@@ -8,6 +8,10 @@ class TweetResponse(
     @Expose
     val id: Double,
 
+    @SerializedName("text")
+    @Expose
+    val text: String,
+
     @SerializedName("user")
     @Expose
     var user: UserResponse? = null

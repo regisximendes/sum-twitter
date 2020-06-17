@@ -5,6 +5,7 @@ import com.ximendes.sumtwitter.data.mapper.toSimpleTweetList
 import com.ximendes.sumtwitter.data.mapper.toTweet
 import com.ximendes.sumtwitter.data.repository.home.HomeRepository
 import com.ximendes.sumtwitter.data.response.TweetResponse
+import com.ximendes.sumtwitter.util.livedata.SingleLiveEvent
 import com.ximendes.sumtwitter.util.shared.BaseTimeLineViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -17,6 +18,8 @@ class DashboardViewModel(private val repository: HomeRepository) : BaseTimeLineV
     val description = MutableLiveData<String>()
     val profileImageUrl =  MutableLiveData<String>()
 
+    val error = SingleLiveEvent<Unit>()
+
     fun getUserHome(userName: String) {
         val formattedUserName = formatUserNameToSearch(userName)
 
@@ -26,7 +29,7 @@ class DashboardViewModel(private val repository: HomeRepository) : BaseTimeLineV
             .subscribe({ tweetsResponseList ->
                 fetchTweetsSuccess(tweetsResponseList)
             }, {
-                handleError()
+                showErrorState()
             })
 
         compositeDisposable.add(disposable)
@@ -49,7 +52,5 @@ class DashboardViewModel(private val repository: HomeRepository) : BaseTimeLineV
         profileImageUrl.postValue(user?.profileImageUrl)
     }
 
-    private fun handleError() {
-
-    }
+    private fun showErrorState() = error.call()
 }

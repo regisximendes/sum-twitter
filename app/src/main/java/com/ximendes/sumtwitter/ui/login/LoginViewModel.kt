@@ -2,20 +2,17 @@ package com.ximendes.sumtwitter.ui.login
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.ximendes.sumtwitter.R
 import com.ximendes.sumtwitter.data.enums.SessionState.LOGGED_IN
 import com.ximendes.sumtwitter.data.enums.SessionState.LOGGED_OUT
 import com.ximendes.sumtwitter.data.repository.login.LoginRepository
 import com.ximendes.sumtwitter.util.livedata.SingleLiveEvent
-import com.ximendes.sumtwitter.util.resourceprovider.ResourceProvider
 
 class LoginViewModel(
-    private val resourceProvider: ResourceProvider,
     private val repository: LoginRepository
 ) : ViewModel() {
 
     val loginSuccess = SingleLiveEvent<Unit>()
-    val errorMessage = SingleLiveEvent<String>()
+    val error = SingleLiveEvent<Unit>()
     val signInFlowEvent = SingleLiveEvent<Unit>()
 
     init {
@@ -26,7 +23,7 @@ class LoginViewModel(
         val firebaseAuth = FirebaseAuth.getInstance()
 
         if (firebaseAuth.currentUser != null) {
-            loginSuccess.call()
+            loginSuccess()
         }
     }
 
@@ -44,6 +41,7 @@ class LoginViewModel(
     }
 
     fun loginFail() {
-        errorMessage.postValue(resourceProvider.getString(R.string.login_fail_message))
+        error.call()
     }
+
 }

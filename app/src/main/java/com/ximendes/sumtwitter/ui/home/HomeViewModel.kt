@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.ximendes.sumtwitter.data.domain.Tweet
 import com.ximendes.sumtwitter.data.mapper.toTweetList
 import com.ximendes.sumtwitter.data.repository.home.HomeRepository
+import com.ximendes.sumtwitter.util.livedata.SingleLiveEvent
 import com.ximendes.sumtwitter.util.shared.BaseTimeLineViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -11,6 +12,7 @@ import io.reactivex.schedulers.Schedulers
 class HomeViewModel(private val repository: HomeRepository) : BaseTimeLineViewModel() {
 
     val tweets = MutableLiveData<List<Tweet>>()
+    val error = SingleLiveEvent<Unit>()
 
     init {
         getUserTimeline()
@@ -23,7 +25,7 @@ class HomeViewModel(private val repository: HomeRepository) : BaseTimeLineViewMo
             .subscribe({ tweetsResponseList ->
                 fetchTweetsSuccess(tweetsResponseList.toTweetList())
             }, {
-                handleError()
+                showErrorState()
             })
 
         compositeDisposable.add(disposable)
@@ -33,7 +35,5 @@ class HomeViewModel(private val repository: HomeRepository) : BaseTimeLineViewMo
         this.tweets.postValue(tweets)
     }
 
-    private fun handleError() {
-
-    }
+    private fun showErrorState() = error.call()
 }

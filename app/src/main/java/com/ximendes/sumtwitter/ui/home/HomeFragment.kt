@@ -58,6 +58,10 @@ class HomeFragment : Fragment(), TweetListener {
         tweets.observe(viewLifecycleOwner, Observer { tweets ->
             setupTweetList(tweets)
         })
+
+        error.observe(viewLifecycleOwner, Observer {
+            showErrorState()
+        })
     }
 
     private fun setupTweetList(tweets: List<Tweet>) {
@@ -73,5 +77,10 @@ class HomeFragment : Fragment(), TweetListener {
             R.id.action_navigation_home_to_navigation_dashboard,
             bundleOf(USER_NAME to userName)
         )
+    }
+
+    private fun showErrorState() {
+        binding.tweetsRecyclerView.visibility = View.GONE
+        binding.errorView.visibility = View.VISIBLE
     }
 }

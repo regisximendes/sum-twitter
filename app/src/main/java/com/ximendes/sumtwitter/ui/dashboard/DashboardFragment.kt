@@ -24,7 +24,6 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return setupViewBinding(inflater, container)
     }
 
@@ -47,10 +46,13 @@ class DashboardFragment : Fragment() {
         viewModel.getUserHome(userName ?: return)
     }
 
-
     private fun observeViewModel() = with(viewModel) {
         tweets.observe(viewLifecycleOwner, Observer { tweets ->
             setupTweetList(tweets)
+        })
+
+        error.observe(viewLifecycleOwner, Observer {
+            showErrorState()
         })
     }
 
@@ -62,4 +64,8 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    private fun showErrorState() {
+        binding.tweetsRecyclerView.visibility = View.GONE
+        binding.errorView.visibility = View.VISIBLE
+    }
 }

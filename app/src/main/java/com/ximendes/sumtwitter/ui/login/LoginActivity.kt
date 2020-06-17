@@ -2,6 +2,7 @@ package com.ximendes.sumtwitter.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -13,6 +14,7 @@ import com.ximendes.sumtwitter.R
 import com.ximendes.sumtwitter.databinding.ActivityLoginBinding
 import com.ximendes.sumtwitter.util.constants.Constants
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -27,13 +29,17 @@ class LoginActivity : AppCompatActivity() {
         observeViewModel()
     }
 
-    private fun observeViewModel() {
-        viewModel.signInFlowEvent.observe(this, Observer {
+    private fun observeViewModel() = with(viewModel) {
+        signInFlowEvent.observe(this@LoginActivity, Observer {
             twitterFirebaseSignIn()
         })
 
-        viewModel.loginSuccess.observe(this, Observer {
+        loginSuccess.observe(this@LoginActivity, Observer {
             navigateToTimeline()
+        })
+
+        error.observe(this@LoginActivity, Observer {
+            showErrorDialog()
         })
     }
 
@@ -50,10 +56,11 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth
             .startActivityForSignInWithProvider(this, provider.build())
             .addOnSuccessListener {
+                viewModel.loginSuccess()
                 val a = it.credential as OAuthCredential
                 val b = a.accessToken
-                val c  = a.secret
-                val d  = c
+                val c = a.secret
+                val d = c
             }
             .addOnFailureListener {
                 viewModel.loginFail()
@@ -62,5 +69,13 @@ class LoginActivity : AppCompatActivity() {
 
     private fun navigateToTimeline() {
         startActivity(Intent(this, MainActivity::class.java))
+    }
+
+    private fun showErrorDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.error_title))
+            .setMessage(getString(R.string.error_message))
+            .setPositiveButton(android.R.string.yes, null)
+            .show()
     }
 }

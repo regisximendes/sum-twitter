@@ -1,5 +1,6 @@
 package com.ximendes.sumtwitter.ui.home
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.ximendes.sumtwitter.data.domain.Tweet
@@ -31,6 +32,7 @@ class HomeViewModel(
             .subscribe({ tweetsResponseList ->
                 fetchTweetsSuccess(tweetsResponseList.toTweetList())
             }, {
+                Log.i("erro","${ it.message}")
                 showErrorState()
             })
 

@@ -24,7 +24,7 @@ import org.junit.Rule
 import org.junit.Test
 
 class ProfiledViewModelTest {
-    
+
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 

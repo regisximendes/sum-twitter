@@ -1,5 +1,6 @@
 package com.ximendes.sumtwitter.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ximendes.sumtwitter.R
 import com.ximendes.sumtwitter.data.domain.Tweet
 import com.ximendes.sumtwitter.databinding.FragmentHomeBinding
+import com.ximendes.sumtwitter.ui.login.LoginActivity
 import com.ximendes.sumtwitter.util.constants.Constants.USER_NAME
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -63,6 +65,10 @@ class HomeFragment : Fragment(), TweetListener {
         error.observe(viewLifecycleOwner, Observer {
             showErrorState()
         })
+
+        signOut.observe(viewLifecycleOwner, Observer {
+            navigateToLogin()
+        })
     }
 
     private fun setupTweetList(tweets: List<Tweet>) {
@@ -83,5 +89,10 @@ class HomeFragment : Fragment(), TweetListener {
     private fun showErrorState() {
         binding.tweetsRecyclerView.visibility = View.GONE
         binding.errorView.visibility = View.VISIBLE
+    }
+
+    private fun navigateToLogin() {
+        startActivity(Intent(activity, LoginActivity::class.java))
+        activity?.finish()
     }
 }

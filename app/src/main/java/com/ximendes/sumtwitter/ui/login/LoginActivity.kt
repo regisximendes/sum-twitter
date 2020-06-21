@@ -59,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun navigateToTimeline() {
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     private fun showErrorDialog() {

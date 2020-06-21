@@ -1,6 +1,7 @@
 package com.ximendes.sumtwitter.ui.home
 
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
 import com.ximendes.sumtwitter.data.domain.Tweet
 import com.ximendes.sumtwitter.data.mapper.toTweetList
 import com.ximendes.sumtwitter.data.repository.home.HomeRepository
@@ -19,6 +20,7 @@ class HomeViewModel(
 
     val tweets = MutableLiveData<List<Tweet>>()
     val error = SingleLiveEvent<Unit>()
+    val signOut = SingleLiveEvent<Unit>()
 
     init {
         getUserTimeline()
@@ -39,6 +41,11 @@ class HomeViewModel(
         compositeDisposable.add(disposable)
     }
 
+    fun logout() {
+        FirebaseAuth.getInstance().signOut()
+        signOut.call()
+    }
+
     private fun buildTweetsRequest(): TweetsRequest {
         return TweetsRequest(
             userRepository.getString(Constants.ACCESS_TOKEN_KEY),
@@ -46,9 +53,7 @@ class HomeViewModel(
         )
     }
 
-    private fun fetchTweetsSuccess(tweets: List<Tweet>) {
-        this.tweets.postValue(tweets)
-    }
+    private fun fetchTweetsSuccess(tweets: List<Tweet>) = this.tweets.postValue(tweets)
 
     private fun showErrorState() = error.call()
 }

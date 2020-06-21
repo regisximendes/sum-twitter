@@ -13,6 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/soft_background"
         tools:context=".ui.login.LoginActivity">
 
         <TextView
@@ -20,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
+            android:fontFamily="sans-serif-light"
             android:text="@string/app_name"
             android:textSize="48sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -31,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-light"
             android:text="@string/login_subtitle"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +50,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:onClick="@{() -> viewModel.startLoginFlow()}"
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -56,6 +58,7 @@
             android:layout_marginBottom="56dp"
             android:backgroundTint="@color/twitter_blue"
             android:drawableEnd="@drawable/ic_twitter"
+            android:onClick="@{() -> viewModel.startLoginFlow()}"
             android:text="@string/login_with_twitter"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"

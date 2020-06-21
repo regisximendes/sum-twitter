@@ -3,7 +3,7 @@ package com.ximendes.sumtwitter.ui.profile
 import androidx.lifecycle.MutableLiveData
 import com.ximendes.sumtwitter.data.mapper.toSimpleTweetList
 import com.ximendes.sumtwitter.data.mapper.toTweet
-import com.ximendes.sumtwitter.data.repository.home.HomeRepository
+import com.ximendes.sumtwitter.data.repository.home.TimeLineRepository
 import com.ximendes.sumtwitter.data.repository.user.UserRepository
 import com.ximendes.sumtwitter.data.request.TweetsRequest
 import com.ximendes.sumtwitter.data.response.TweetResponse
@@ -14,7 +14,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class ProfiledViewModel(
-    private val repository: HomeRepository,
+    private val timeLineRepository: TimeLineRepository,
     private val userRepository: UserRepository
 ) : BaseTimeLineViewModel() {
 
@@ -29,7 +29,7 @@ class ProfiledViewModel(
     fun getUserHome(userName: String) {
         val formattedUserName = formatUserNameToSearch(userName)
         showProgressBar()
-        val disposable = repository.getUserHome(formattedUserName, buildTweetsRequest())
+        val disposable = timeLineRepository.getUserHome(formattedUserName, buildTweetsRequest())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doAfterTerminate { hideProgressBar() }

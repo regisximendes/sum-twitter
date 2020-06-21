@@ -2,8 +2,7 @@ package com.ximendes.sumtwitter.ui.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.ximendes.sumtwitter.data.mapper.toTweetList
-import com.ximendes.sumtwitter.data.repository.home.HomeRepository
+import com.ximendes.sumtwitter.data.repository.home.TimeLineRepository
 import com.ximendes.sumtwitter.data.repository.user.UserRepository
 import com.ximendes.sumtwitter.data.request.TweetsRequest
 import com.ximendes.sumtwitter.data.response.TweetResponse
@@ -29,7 +28,7 @@ class HomeViewModelTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     @MockK
-    private lateinit var homeRepository: HomeRepository
+    private lateinit var timeLineRepository: TimeLineRepository
 
     @MockK
     private lateinit var userRepository: UserRepository
@@ -52,17 +51,17 @@ class HomeViewModelTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        viewModel = HomeViewModel(homeRepository, userRepository)
+        viewModel = HomeViewModel(timeLineRepository, userRepository)
     }
 
     @Test
     fun `when view model start should fetch a tweet list`() {
-        every { homeRepository.getUserTimeline(tweetsRequest) } returns Single.just(
+        every { timeLineRepository.getUserTimeline(tweetsRequest) } returns Single.just(
             tweetResponseList
         )
 
         val testObserver = TestObserver<List<TweetResponse>>()
-        val result = homeRepository.getUserTimeline(tweetsRequest)
+        val result = timeLineRepository.getUserTimeline(tweetsRequest)
 
         result.subscribe(testObserver)
         testObserver.assertComplete()
@@ -88,11 +87,11 @@ class HomeViewModelTest {
     fun `when fetch tweets fail should show an error`() {
         val error = Exception("Error")
         viewModel.errorEvent.observeForever(errorObserver)
-        every { homeRepository.getUserTimeline(tweetsRequest) } returns Single.error(error)
+        every { timeLineRepository.getUserTimeline(tweetsRequest) } returns Single.error(error)
 
         val testObserver = TestObserver<List<TweetResponse>>()
         val result =
-            homeRepository.getUserTimeline(tweetsRequest).doOnError { viewModel.errorEvent.call() }
+            timeLineRepository.getUserTimeline(tweetsRequest).doOnError { viewModel.errorEvent.call() }
 
         result.subscribe(testObserver)
         testObserver.assertError(error)
@@ -112,12 +111,12 @@ class HomeViewModelTest {
     @Test
     fun `when finish fetch tweets should hide progress bar`() {
         viewModel.isLoading.observeForever(isLoadingObserver)
-        every { homeRepository.getUserTimeline(tweetsRequest) } returns Single.just(
+        every { timeLineRepository.getUserTimeline(tweetsRequest) } returns Single.just(
             tweetResponseList
         )
 
         val testObserver = TestObserver<List<TweetResponse>>()
-        val result = homeRepository.getUserTimeline(tweetsRequest)
+        val result = timeLineRepository.getUserTimeline(tweetsRequest)
             .doAfterTerminate { viewModel.isLoading.value = false }
 
         result.subscribe(testObserver)

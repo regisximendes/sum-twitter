@@ -5,7 +5,7 @@ import com.ximendes.sumtwitter.data.request.TweetsRequest
 import com.ximendes.sumtwitter.data.response.TweetResponse
 import io.reactivex.Single
 
-class HomeRepositoryImpl(private val timeLinesApi: TimeLinesApi) : HomeRepository {
+class TimeLineRepositoryImpl(private val timeLinesApi: TimeLinesApi) : TimeLineRepository {
 
     override fun getUserTimeline(request: TweetsRequest): Single<List<TweetResponse>> {
         return timeLinesApi.getUserTimeline(request)

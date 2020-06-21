@@ -33,11 +33,11 @@ class LoginActivity : AppCompatActivity() {
             twitterFirebaseSignIn()
         })
 
-        loginSuccess.observe(this@LoginActivity, Observer {
+        timeLineNavigationEvent.observe(this@LoginActivity, Observer {
             navigateToTimeline()
         })
 
-        error.observe(this@LoginActivity, Observer {
+        errorEvent.observe(this@LoginActivity, Observer {
             showErrorDialog()
         })
     }

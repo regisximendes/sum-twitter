@@ -8,10 +8,29 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.ximendes.sumtwitter.data.enums.SessionState
+import io.reactivex.Observable
 
 class LoginRepositoryImpl : LoginRepository {
 
+
+    override fun getBla(): Observable<AuthResult> {
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val pendingResultTask: Task<AuthResult>? = firebaseAuth.pendingAuthResult
+
+        return Observable.create { n ->
+            pendingResultTask?.addOnSuccessListener(
+                OnSuccessListener {
+                    n.onNext(it)
+                })
+                ?.addOnFailureListener(
+                    OnFailureListener {
+                        n.onError(it)
+                    })
+        }
+    }
+
     override fun checkPendingResultTask(): LiveData<SessionState> {
+
         val firebaseAuth = FirebaseAuth.getInstance()
         val pendingResultTask: Task<AuthResult>? = firebaseAuth.pendingAuthResult
         val data = MutableLiveData<SessionState>()

@@ -12,14 +12,11 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
 
-    fun provideLoginRepository(): LoginRepository = LoginRepositoryImpl()
-
     fun provideHomeRepository(timeLinesApi: TimeLinesApi): HomeRepository =
         HomeRepositoryImpl(timeLinesApi)
 
     fun provideUserRepository(context: Context): UserRepository = UserRepositoryImpl(context)
 
-    single { provideLoginRepository() }
     single { provideHomeRepository(get()) }
     single { provideUserRepository(get()) }
 }

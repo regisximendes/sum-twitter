@@ -47,7 +47,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:onClick="@{() -> viewModel.checkPendingResultTask()}"
+            android:onClick="@{() -> viewModel.startLoginFlow()}"
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="56dp"

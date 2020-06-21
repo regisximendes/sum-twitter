@@ -143,12 +143,11 @@ class ProfiledViewModelTest {
         )
 
         val testObserver = TestObserver<List<TweetResponse>>()
-        val result = timeLineRepository.getUserHome("test",tweetsRequest)
+        val result = timeLineRepository.getUserHome("test", tweetsRequest)
             .doAfterTerminate { viewModel.isLoading.value = false }
 
         result.subscribe(testObserver)
 
         verify { isLoadingObserver.onChanged(false) }
     }
-
 }

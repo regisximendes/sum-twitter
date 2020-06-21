@@ -12,7 +12,6 @@ import io.reactivex.Observable
 
 class LoginRepositoryImpl : LoginRepository {
 
-
     override fun getBla(): Observable<AuthResult> {
         val firebaseAuth = FirebaseAuth.getInstance()
         val pendingResultTask: Task<AuthResult>? = firebaseAuth.pendingAuthResult

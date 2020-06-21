@@ -10,9 +10,9 @@ import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.OAuthCredential
 import com.google.firebase.auth.OAuthProvider
-import com.ximendes.sumtwitter.ui.MainActivity
 import com.ximendes.sumtwitter.R
 import com.ximendes.sumtwitter.databinding.ActivityLoginBinding
+import com.ximendes.sumtwitter.ui.MainActivity
 import com.ximendes.sumtwitter.util.constants.Constants
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.onSaveCredentials(oAuthCredential)
             }
             .addOnFailureListener {
-                Log.i("LOGIN ERROR","${it.message}")
+                Log.i("LOGIN ERROR", "${it.message}")
                 viewModel.loginFail()
             }
     }

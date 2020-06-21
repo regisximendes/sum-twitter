@@ -22,4 +22,8 @@ class UserRepositoryImpl(private val context: Context) : UserRepository {
         val firebaseAuth = FirebaseAuth.getInstance()
         return firebaseAuth.currentUser != null
     }
+
+    override fun logout() {
+        FirebaseAuth.getInstance().signOut()
+    }
 }

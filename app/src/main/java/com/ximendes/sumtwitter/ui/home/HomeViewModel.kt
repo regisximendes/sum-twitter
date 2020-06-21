@@ -19,12 +19,8 @@ class HomeViewModel(
 ) : BaseTimeLineViewModel() {
 
     val tweets = MutableLiveData<List<Tweet>>()
-    val error = SingleLiveEvent<Unit>()
-    val signOut = SingleLiveEvent<Unit>()
-
-    init {
-        getUserTimeline()
-    }
+    val errorEvent = SingleLiveEvent<Unit>()
+    val signOutEvent = SingleLiveEvent<Unit>()
 
     fun getUserTimeline() {
         showProgressBar()
@@ -42,8 +38,8 @@ class HomeViewModel(
     }
 
     fun logout() {
-        FirebaseAuth.getInstance().signOut()
-        signOut.call()
+        userRepository.logout()
+        signOutEvent.call()
     }
 
     private fun buildTweetsRequest(): TweetsRequest {
@@ -55,5 +51,5 @@ class HomeViewModel(
 
     private fun fetchTweetsSuccess(tweets: List<Tweet>) = this.tweets.postValue(tweets)
 
-    private fun showErrorState() = error.call()
+    private fun showErrorState() = errorEvent.call()
 }

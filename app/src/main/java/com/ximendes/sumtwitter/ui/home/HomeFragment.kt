@@ -62,11 +62,11 @@ class HomeFragment : Fragment(), TweetListener {
             setupTweetList(tweets)
         })
 
-        error.observe(viewLifecycleOwner, Observer {
+        errorEvent.observe(viewLifecycleOwner, Observer {
             showErrorState()
         })
 
-        signOut.observe(viewLifecycleOwner, Observer {
+        signOutEvent.observe(viewLifecycleOwner, Observer {
             navigateToLogin()
         })
     }

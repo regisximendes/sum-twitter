@@ -41,9 +41,9 @@ class HomeViewModelTest {
 
     private val tweetsRequest = TweetsRequest("1", "1")
 
-    private val userResponse = UserResponse(1, "", "", "", "")
+    private val userResponse = UserResponse("1", "", "", "", "")
 
-    private val tweetResponseList = listOf(TweetResponse(1, "tweet", userResponse))
+    private val tweetResponseList = listOf(TweetResponse("1", "tweet", userResponse))
 
     private val isLoadingObserver = mockk<Observer<Boolean>>(relaxed = true)
 
@@ -70,7 +70,7 @@ class HomeViewModelTest {
 
         val tweets = testObserver.values()[0]
         assertThat(tweets.size, `is`(1))
-        assertThat(tweets[0].id, `is`(1))
+        assertThat(tweets[0].id, `is`("1"))
         assertThat(tweets[0].text, `is`("tweet"))
         Assert.assertNotNull(tweets[0].user)
     }

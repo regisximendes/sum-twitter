@@ -39,9 +39,9 @@ class ProfiledViewModelTest {
 
     private val tweetsRequest = TweetsRequest("1", "1")
 
-    private val userResponse = UserResponse(1, "test", "test", "test", "test")
+    private val userResponse = UserResponse("1", "test", "test", "test", "test")
 
-    private val tweetResponseList = listOf(TweetResponse(1, "tweet", userResponse))
+    private val tweetResponseList = listOf(TweetResponse("1", "tweet", userResponse))
 
     private val errorObserver = mockk<Observer<Unit>>(relaxed = true)
 
@@ -76,7 +76,7 @@ class ProfiledViewModelTest {
 
         val tweets = testObserver.values()[0]
         MatcherAssert.assertThat(tweets.size, CoreMatchers.`is`(1))
-        MatcherAssert.assertThat(tweets[0].id, CoreMatchers.`is`(1))
+        MatcherAssert.assertThat(tweets[0].id, CoreMatchers.`is`("1"))
         MatcherAssert.assertThat(tweets[0].text, CoreMatchers.`is`("tweet"))
         Assert.assertNotNull(tweets[0].user)
     }

@@ -2,6 +2,7 @@ package com.ximendes.sumtwitter.ui.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.ximendes.sumtwitter.data.mapper.toTweetList
 import com.ximendes.sumtwitter.data.repository.home.HomeRepository
 import com.ximendes.sumtwitter.data.repository.user.UserRepository
 import com.ximendes.sumtwitter.data.request.TweetsRequest
@@ -60,14 +61,14 @@ class HomeViewModelTest {
             tweetResponseList
         )
 
-        val tweetsObserver = TestObserver<List<TweetResponse>>()
+        val testObserver = TestObserver<List<TweetResponse>>()
         val result = homeRepository.getUserTimeline(tweetsRequest)
 
-        result.subscribe(tweetsObserver)
-        tweetsObserver.assertComplete()
-        tweetsObserver.assertNoErrors()
+        result.subscribe(testObserver)
+        testObserver.assertComplete()
+        testObserver.assertNoErrors()
 
-        val tweets = tweetsObserver.values()[0]
+        val tweets = testObserver.values()[0]
         assertThat(tweets.size, `is`(1))
         assertThat(tweets[0].id, `is`(1))
         assertThat(tweets[0].text, `is`("tweet"))
@@ -89,18 +90,18 @@ class HomeViewModelTest {
         viewModel.errorEvent.observeForever(errorObserver)
         every { homeRepository.getUserTimeline(tweetsRequest) } returns Single.error(error)
 
-        val tweetsObserver = TestObserver<List<TweetResponse>>()
+        val testObserver = TestObserver<List<TweetResponse>>()
         val result =
             homeRepository.getUserTimeline(tweetsRequest).doOnError { viewModel.errorEvent.call() }
 
-        result.subscribe(tweetsObserver)
-        tweetsObserver.assertError(error)
+        result.subscribe(testObserver)
+        testObserver.assertError(error)
 
         verify { errorObserver.onChanged(any()) }
     }
 
     @Test
-    fun `when fetch tweets should show the progress bar`() {
+    fun `when start fetch tweets should show the progress bar`() {
         viewModel.isLoading.observeForever(isLoadingObserver)
 
         viewModel.getUserTimeline()
@@ -115,12 +116,12 @@ class HomeViewModelTest {
             tweetResponseList
         )
 
-        val tweetsObserver = TestObserver<List<TweetResponse>>()
+        val testObserver = TestObserver<List<TweetResponse>>()
         val result = homeRepository.getUserTimeline(tweetsRequest)
             .doAfterTerminate { viewModel.isLoading.value = false }
 
-        result.subscribe(tweetsObserver)
-        
+        result.subscribe(testObserver)
+
         verify { isLoadingObserver.onChanged(false) }
     }
 }

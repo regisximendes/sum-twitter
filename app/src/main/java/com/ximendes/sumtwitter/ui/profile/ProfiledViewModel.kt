@@ -24,7 +24,7 @@ class ProfiledViewModel(
     val description = MutableLiveData<String>()
     val profileImageUrl = MutableLiveData<String>()
 
-    val error = SingleLiveEvent<Unit>()
+    val errorEvent = SingleLiveEvent<Unit>()
 
     fun getUserHome(userName: String) {
         val formattedUserName = formatUserNameToSearch(userName)
@@ -66,5 +66,5 @@ class ProfiledViewModel(
         profileImageUrl.postValue(user?.profileImageUrl)
     }
 
-    private fun showErrorState() = error.call()
+    private fun showErrorState() = errorEvent.call()
 }

@@ -2,6 +2,7 @@ package com.ximendes.sumtwitter.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -53,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.onSaveCredentials(oAuthCredential)
             }
             .addOnFailureListener {
+                Log.i("LOGIN ERROR","${it.message}")
                 viewModel.loginFail()
             }
     }

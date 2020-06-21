@@ -9,12 +9,12 @@ abstract class BaseTimeLineViewModel : ViewModel() {
     protected val compositeDisposable = CompositeDisposable()
     val isLoading = MutableLiveData<Boolean>().apply { value = false }
 
+    protected fun showProgressBar() = isLoading.postValue(true)
+
+    protected fun hideProgressBar() = isLoading.postValue(false)
+
     override fun onCleared() {
         compositeDisposable.dispose()
         super.onCleared()
     }
-
-    protected fun showProgressBar() = isLoading.postValue(true)
-
-    protected fun hideProgressBar() = isLoading.postValue(false)
 }

@@ -24,7 +24,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.viewModel = viewModel
-        viewListeners()
         observeViewModel()
     }
 
@@ -40,12 +39,6 @@ class LoginActivity : AppCompatActivity() {
         error.observe(this@LoginActivity, Observer {
             showErrorDialog()
         })
-    }
-
-    private fun viewListeners() {
-        binding.loginButton.setOnClickListener {
-            viewModel.checkPendingResultTask()
-        }
     }
 
     private fun twitterFirebaseSignIn() {

@@ -4,13 +4,19 @@ import androidx.lifecycle.MutableLiveData
 import com.ximendes.sumtwitter.data.mapper.toSimpleTweetList
 import com.ximendes.sumtwitter.data.mapper.toTweet
 import com.ximendes.sumtwitter.data.repository.home.HomeRepository
+import com.ximendes.sumtwitter.data.repository.user.UserRepository
+import com.ximendes.sumtwitter.data.request.TweetsRequest
 import com.ximendes.sumtwitter.data.response.TweetResponse
+import com.ximendes.sumtwitter.util.constants.Constants
 import com.ximendes.sumtwitter.util.livedata.SingleLiveEvent
 import com.ximendes.sumtwitter.util.shared.BaseTimeLineViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class ProfiledViewModel(private val repository: HomeRepository) : BaseTimeLineViewModel() {
+class ProfiledViewModel(
+    private val repository: HomeRepository,
+    private val userRepository: UserRepository
+) : BaseTimeLineViewModel() {
 
     val tweets = MutableLiveData<List<String>>()
     val fullName = MutableLiveData<String>()
@@ -23,7 +29,7 @@ class ProfiledViewModel(private val repository: HomeRepository) : BaseTimeLineVi
     fun getUserHome(userName: String) {
         val formattedUserName = formatUserNameToSearch(userName)
         showProgressBar()
-        val disposable = repository.getUserHome(formattedUserName)
+        val disposable = repository.getUserHome(formattedUserName, buildTweetsRequest())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doAfterTerminate { hideProgressBar() }
@@ -34,6 +40,13 @@ class ProfiledViewModel(private val repository: HomeRepository) : BaseTimeLineVi
             })
 
         compositeDisposable.add(disposable)
+    }
+
+    private fun buildTweetsRequest(): TweetsRequest {
+        return TweetsRequest(
+            userRepository.getString(Constants.ACCESS_TOKEN_KEY),
+            userRepository.getString(Constants.SECRET_KEY)
+        )
     }
 
     private fun formatUserNameToSearch(userName: String): String {

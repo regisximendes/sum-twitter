@@ -2,17 +2,17 @@ package com.ximendes.sumtwitter.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.OAuthCredential
 import com.ximendes.sumtwitter.data.enums.SessionState.LOGGED_IN
 import com.ximendes.sumtwitter.data.enums.SessionState.LOGGED_OUT
 import com.ximendes.sumtwitter.data.repository.login.LoginRepository
-import com.ximendes.sumtwitter.util.PreferencesHelper
+import com.ximendes.sumtwitter.data.repository.user.UserRepository
 import com.ximendes.sumtwitter.util.constants.Constants
 import com.ximendes.sumtwitter.util.livedata.SingleLiveEvent
 
 class LoginViewModel(
-    private val repository: LoginRepository
+    private val loginRepository: LoginRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     val loginSuccess = SingleLiveEvent<Unit>()
@@ -25,16 +25,12 @@ class LoginViewModel(
     }
 
     private fun checkLoggedUser() {
-        val firebaseAuth = FirebaseAuth.getInstance()
-
-        if (firebaseAuth.currentUser != null) {
-            loginSuccess()
-        }
+        if (userRepository.hasUserLogged()) loginSuccess()
     }
 
     fun checkPendingResultTask() {
         showProgressBar()
-        val sessionState = repository.checkPendingResultTask().value ?: return
+        val sessionState = loginRepository.checkPendingResultTask().value ?: return
 
         when (sessionState) {
             LOGGED_OUT -> signInFlowEvent.call()
@@ -53,8 +49,8 @@ class LoginViewModel(
     }
 
     fun onSaveCredentials(credential: OAuthCredential) {
-        PreferencesHelper.saveString(Constants.ACCESS_TOKEN_KEY, credential.accessToken)
-        PreferencesHelper.saveString(Constants.SECRET_KEY, credential.secret)
+        userRepository.saveString(Constants.ACCESS_TOKEN_KEY, credential.accessToken)
+        userRepository.saveString(Constants.SECRET_KEY, credential.secret.orEmpty())
     }
 
     private fun showProgressBar() = isLoading.postValue(true)

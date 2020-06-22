@@ -2,6 +2,7 @@ package com.ximendes.sumtwitter.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -9,9 +10,9 @@ import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.OAuthCredential
 import com.google.firebase.auth.OAuthProvider
-import com.ximendes.sumtwitter.ui.MainActivity
 import com.ximendes.sumtwitter.R
 import com.ximendes.sumtwitter.databinding.ActivityLoginBinding
+import com.ximendes.sumtwitter.ui.MainActivity
 import com.ximendes.sumtwitter.util.constants.Constants
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -24,7 +25,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.viewModel = viewModel
-        viewListeners()
         observeViewModel()
     }
 
@@ -33,19 +33,13 @@ class LoginActivity : AppCompatActivity() {
             twitterFirebaseSignIn()
         })
 
-        loginSuccess.observe(this@LoginActivity, Observer {
+        timeLineNavigationEvent.observe(this@LoginActivity, Observer {
             navigateToTimeline()
         })
 
-        error.observe(this@LoginActivity, Observer {
+        errorEvent.observe(this@LoginActivity, Observer {
             showErrorDialog()
         })
-    }
-
-    private fun viewListeners() {
-        binding.loginButton.setOnClickListener {
-            viewModel.checkPendingResultTask()
-        }
     }
 
     private fun twitterFirebaseSignIn() {
@@ -60,12 +54,14 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.onSaveCredentials(oAuthCredential)
             }
             .addOnFailureListener {
+                Log.i("LOGIN ERROR", "${it.message}")
                 viewModel.loginFail()
             }
     }
 
     private fun navigateToTimeline() {
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     private fun showErrorDialog() {

@@ -1,5 +1,6 @@
 package com.ximendes.sumtwitter.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ximendes.sumtwitter.R
 import com.ximendes.sumtwitter.data.domain.Tweet
 import com.ximendes.sumtwitter.databinding.FragmentHomeBinding
+import com.ximendes.sumtwitter.ui.login.LoginActivity
 import com.ximendes.sumtwitter.util.constants.Constants.USER_NAME
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment(), TweetListener {
@@ -48,7 +51,14 @@ class HomeFragment : Fragment(), TweetListener {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
         setupNavController(view)
+        viewsListener()
         viewModel.getUserTimeline()
+    }
+
+    private fun viewsListener() {
+        refreshLayout.setOnRefreshListener {
+            viewModel.getUserTimeline()
+        }
     }
 
     private fun setupNavController(view: View) {
@@ -57,11 +67,20 @@ class HomeFragment : Fragment(), TweetListener {
 
     private fun observeViewModel() = with(viewModel) {
         tweets.observe(viewLifecycleOwner, Observer { tweets ->
+            hideErrorState()
             setupTweetList(tweets)
         })
 
-        error.observe(viewLifecycleOwner, Observer {
+        errorEvent.observe(viewLifecycleOwner, Observer {
             showErrorState()
+        })
+
+        signOutEvent.observe(viewLifecycleOwner, Observer {
+            navigateToLogin()
+        })
+
+        isLoading.observe(viewLifecycleOwner, Observer {
+            setupRefreshing(it)
         })
     }
 
@@ -71,6 +90,10 @@ class HomeFragment : Fragment(), TweetListener {
             adapter = this@HomeFragment.adapter
             layoutManager = LinearLayoutManager(this@HomeFragment.context)
         }
+    }
+
+    private fun setupRefreshing(isRefreshing: Boolean) {
+        if (isRefreshing.not()) binding.refreshLayout.isRefreshing = isRefreshing
     }
 
     override fun onTweetClicked(userName: String) {
@@ -83,5 +106,15 @@ class HomeFragment : Fragment(), TweetListener {
     private fun showErrorState() {
         binding.tweetsRecyclerView.visibility = View.GONE
         binding.errorView.visibility = View.VISIBLE
+    }
+
+    private fun hideErrorState() {
+        binding.tweetsRecyclerView.visibility = View.VISIBLE
+        binding.errorView.visibility = View.GONE
+    }
+
+    private fun navigateToLogin() {
+        startActivity(Intent(activity, LoginActivity::class.java))
+        activity?.finish()
     }
 }

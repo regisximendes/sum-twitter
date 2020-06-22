@@ -51,7 +51,7 @@ class ProfileFragment : Fragment() {
             setupTweetList(tweets)
         })
 
-        error.observe(viewLifecycleOwner, Observer {
+        errorEvent.observe(viewLifecycleOwner, Observer {
             showErrorState()
         })
     }

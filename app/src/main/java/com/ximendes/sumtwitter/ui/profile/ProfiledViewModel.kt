@@ -3,14 +3,20 @@ package com.ximendes.sumtwitter.ui.profile
 import androidx.lifecycle.MutableLiveData
 import com.ximendes.sumtwitter.data.mapper.toSimpleTweetList
 import com.ximendes.sumtwitter.data.mapper.toTweet
-import com.ximendes.sumtwitter.data.repository.home.HomeRepository
+import com.ximendes.sumtwitter.data.repository.home.TimeLineRepository
+import com.ximendes.sumtwitter.data.repository.user.UserRepository
+import com.ximendes.sumtwitter.data.request.TweetsRequest
 import com.ximendes.sumtwitter.data.response.TweetResponse
+import com.ximendes.sumtwitter.util.constants.Constants
 import com.ximendes.sumtwitter.util.livedata.SingleLiveEvent
 import com.ximendes.sumtwitter.util.shared.BaseTimeLineViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class ProfiledViewModel(private val repository: HomeRepository) : BaseTimeLineViewModel() {
+class ProfiledViewModel(
+    private val timeLineRepository: TimeLineRepository,
+    private val userRepository: UserRepository
+) : BaseTimeLineViewModel() {
 
     val tweets = MutableLiveData<List<String>>()
     val fullName = MutableLiveData<String>()
@@ -18,12 +24,12 @@ class ProfiledViewModel(private val repository: HomeRepository) : BaseTimeLineVi
     val description = MutableLiveData<String>()
     val profileImageUrl = MutableLiveData<String>()
 
-    val error = SingleLiveEvent<Unit>()
+    val errorEvent = SingleLiveEvent<Unit>()
 
     fun getUserHome(userName: String) {
         val formattedUserName = formatUserNameToSearch(userName)
         showProgressBar()
-        val disposable = repository.getUserHome(formattedUserName)
+        val disposable = timeLineRepository.getUserHome(formattedUserName, buildTweetsRequest())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doAfterTerminate { hideProgressBar() }
@@ -34,6 +40,13 @@ class ProfiledViewModel(private val repository: HomeRepository) : BaseTimeLineVi
             })
 
         compositeDisposable.add(disposable)
+    }
+
+    private fun buildTweetsRequest(): TweetsRequest {
+        return TweetsRequest(
+            userRepository.getString(Constants.ACCESS_TOKEN_KEY),
+            userRepository.getString(Constants.SECRET_KEY)
+        )
     }
 
     private fun formatUserNameToSearch(userName: String): String {
@@ -53,5 +66,5 @@ class ProfiledViewModel(private val repository: HomeRepository) : BaseTimeLineVi
         profileImageUrl.postValue(user?.profileImageUrl)
     }
 
-    private fun showErrorState() = error.call()
+    private fun showErrorState() = errorEvent.call()
 }

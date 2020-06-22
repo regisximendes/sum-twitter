@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 class UserResponse(
     @SerializedName("id")
     @Expose
-    val id: Double,
+    val id: String,
 
     @SerializedName("name")
     @Expose

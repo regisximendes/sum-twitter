@@ -74,6 +74,9 @@ dependencies {
     //Shared preferences
     implementation "androidx.preference:preference-ktx:1.1.1"
 
+    //Swipe Refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
     //Mockk
     testImplementation "io.mockk:mockk:1.9.3"
     androidTestImplementation "io.mockk:mockk-android:1.9.3"
